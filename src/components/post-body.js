@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function PostBody({ content }) {
+const PostBody = ({ content }) => {
   return (
     <div className="mx-auto">
       <div className="prose prose-lg prose-blue">
@@ -9,3 +9,4 @@ export default function PostBody({ content }) {
     </div>
   )
 }
+export default PostBody

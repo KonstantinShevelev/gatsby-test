@@ -6,8 +6,8 @@ import Container from "../../components/post-container"
 import { Link } from "gatsby"
 
 export const query = graphql`
-  query PostBySlug($id: String) {
-    post: datoCmsPost(id: { eq: $id }) {
+  query PostBySlug($slug: String) {
+    post: datoCmsPost(slug: { eq: $slug }) {
       title
       body
       date
@@ -19,8 +19,11 @@ export default function Post({ data: { post } }) {
   return (
     <article>
       <Container>
-        <Link className="text-sm md:text-base font-normal text-blue-700" to="/">
-          Вернуться назад
+        <Link
+          className="text-sm md:text-base font-normal text-blue-700"
+          to="/blog"
+        >
+          Перейти в блог
         </Link>
         <PostHeader date={post.date} title={post.title} />
         <PostBody content={post.body} />

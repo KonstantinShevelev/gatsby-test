@@ -1,29 +1,10 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { Link } from "gatsby"
+import Pager from "../components/pager"
 import Layout from "../components/layout"
 
-export const query = graphql`
-  query {
-    allDatoCmsPost(sort: { order: DESC, fields: id }) {
-      edges {
-        node {
-          id
-          title
-          slug
-          body
-          date
-        }
-      }
-    }
-    datoCmsIndex {
-      title
-      text
-    }
-  }
-`
-
-const IndexPage = ({ data }) => {
+const Blog = ({ data, pageContext }) => {
   return (
     <Layout>
       <section>
@@ -31,10 +12,10 @@ const IndexPage = ({ data }) => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="lg:text-center">
               <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                {data.datoCmsIndex.title}
+                {data.datoCmsBlog.title}
               </p>
               <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                {data.datoCmsIndex.text}
+                {data.datoCmsBlog.text}
               </p>
             </div>
             <div className="mt-10">
@@ -75,6 +56,7 @@ const IndexPage = ({ data }) => {
                     </Link>
                   )
                 })}
+                <Pager pageContext={pageContext} />
               </dl>
             </div>
           </div>
@@ -84,4 +66,28 @@ const IndexPage = ({ data }) => {
   )
 }
 
-export default IndexPage
+export const query = graphql`
+  query ($skip: Int!, $limit: Int!) {
+    allDatoCmsPost(
+      sort: { order: DESC, fields: id }
+      limit: $limit
+      skip: $skip
+    ) {
+      edges {
+        node {
+          id
+          title
+          slug
+          body
+          date
+        }
+      }
+    }
+    datoCmsBlog {
+      title
+      text
+    }
+  }
+`
+
+export default Blog
