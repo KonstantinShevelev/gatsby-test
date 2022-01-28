@@ -1,13 +1,13 @@
 exports.createPages = ({ boundActionCreators, graphql }) => {
   const { createPage } = boundActionCreators
 
-  const blogPostTemplate = path.resolve(`src/posts/{DatoCmsPost.slug}.js`)
+  const blogPostTemplate = path.resolve(`src/posts/post.js`)
 
   return graphql(`
     {
       query
       MyQuery {
-        allDatoCmsPost {
+        allDatoCmsPost) {
           edges {
             node {
               title

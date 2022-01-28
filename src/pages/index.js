@@ -4,7 +4,7 @@ import { Link } from "gatsby"
 
 export const query = graphql`
   query MyQuery {
-    allDatoCmsPost {
+    allDatoCmsPost(limit: 6, sort: { order: ASC, fields: id }) {
       edges {
         node {
           id
@@ -15,6 +15,10 @@ export const query = graphql`
         }
       }
     }
+    datoCmsBlog {
+      title
+      text
+    }
   }
 `
 
@@ -24,11 +28,10 @@ const IndexPage = ({ data }) => (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            A better way to send money
+            {data.datoCmsBlog.title}
           </p>
           <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam
-            voluptatum cupiditate veritatis in accusamus quisquam.
+            {data.datoCmsBlog.text}
           </p>
         </div>
         <div className="mt-10">
