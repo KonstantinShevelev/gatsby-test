@@ -4,6 +4,31 @@ import { Link } from "gatsby"
 import Pager from "../components/pager"
 import Layout from "../components/layout"
 
+export const query = graphql`
+  query ($skip: Int!, $limit: Int!) {
+    allDatoCmsPost(
+      sort: { order: DESC, fields: id }
+      limit: $limit
+      skip: $skip
+    ) {
+      totalCount
+      edges {
+        node {
+          id
+          title
+          slug
+          body
+          date
+        }
+      }
+    }
+    datoCmsBlog {
+      title
+      text
+    }
+  }
+`
+
 const Blog = ({ data, pageContext }) => {
   return (
     <Layout>
@@ -56,7 +81,10 @@ const Blog = ({ data, pageContext }) => {
                     </Link>
                   )
                 })}
-                <Pager pageContext={pageContext} />
+                <Pager
+                  pageContext={pageContext}
+                  totalCount={data.allDatoCmsPost.totalCount}
+                />
               </dl>
             </div>
           </div>
@@ -65,29 +93,5 @@ const Blog = ({ data, pageContext }) => {
     </Layout>
   )
 }
-
-export const query = graphql`
-  query ($skip: Int!, $limit: Int!) {
-    allDatoCmsPost(
-      sort: { order: DESC, fields: id }
-      limit: $limit
-      skip: $skip
-    ) {
-      edges {
-        node {
-          id
-          title
-          slug
-          body
-          date
-        }
-      }
-    }
-    datoCmsBlog {
-      title
-      text
-    }
-  }
-`
 
 export default Blog
