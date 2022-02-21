@@ -13,6 +13,7 @@
     "gatsby-plugin-offline": "^5.5.2",
     "gatsby-plugin-react-helmet": "^5.5.0",
     "gatsby-plugin-sharp": "^4.5.2",
+    "gatsby-plugin-sitemap": "^5.7.0",
     "gatsby-source-datocms": "^3.0.12",
     "gatsby-source-filesystem": "^4.5.2",
     "gatsby-transformer-sharp": "^4.5.0",
@@ -40,7 +41,8 @@
     "start": "gatsby develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "bs": "gatsby clean && gatsby build && gatsby serve"
   },
   "repository": {
     "type": "git",
