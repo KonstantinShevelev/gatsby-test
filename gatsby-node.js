@@ -3,11 +3,12 @@ const { paginate } = require("gatsby-awesome-pagination")
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
+  const blogPostTemplate = path.resolve(`src/pages/posts/post.js`)
 
   const result = await graphql(
     `
       {
-        allDatoCmsPost {
+        allDatoCmsPost(sort: { order: ASC, fields: id }) {
           edges {
             node {
               title
@@ -35,16 +36,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     return
   }
 
-  const blogPostTemplate = path.resolve(`src/pages/posts/post.js`)
-  result.data.allDatoCmsPost.edges.forEach(({ node }) => {
+  const posts = result.data.allDatoCmsPost.edges
+  result.data.allDatoCmsPost.edges.forEach(({ node }, index) => {
     const path = "posts/" + node.slug
     createPage({
       path,
       component: blogPostTemplate,
-      // In your blog post template's graphql query, you can use pagePath
-      // as a GraphQL variable to query for data from the markdown file.
       context: {
         slug: node.slug,
+        prev: index === 0 ? null : posts[index - 1].node,
+        next: index === posts.length - 1 ? null : posts[index + 1].node,
       },
     })
   })

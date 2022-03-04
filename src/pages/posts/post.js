@@ -12,27 +12,21 @@ export const query = graphql`
       body
       date
     }
-    allDatoCmsPost {
-      edges {
-        node {
-          id
-        }
-        next {
-          id
-          slug
-          title
-        }
-        previous {
-          id
-          slug
-          title
-        }
-      }
-    }
   }
 `
-
-const Post = ({ data }) => {
+const Post = ({ data, pageContext }) => {
+  const prev = pageContext.prev
+    ? {
+        url: `/posts/${pageContext.prev.slug}`,
+        title: pageContext.prev.title,
+      }
+    : null
+  const next = pageContext.next
+    ? {
+        url: `/posts/${pageContext.next.slug}`,
+        title: pageContext.next.title,
+      }
+    : null
   return (
     <article>
       <Container>
@@ -53,18 +47,22 @@ const Post = ({ data }) => {
               className="w-full justify-between relative z-0 inline-flex rounded-md"
               aria-label="Pagination"
             >
-              <Link
-                className="relative inline-flex items-center px-2 py-2 rounded border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                to="/"
-              >
-                Previous
-              </Link>
-              <Link
-                className="relative inline-flex items-center px-2 py-2 rounded border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                to="/"
-              >
-                Next
-              </Link>
+              {prev && (
+                <Link
+                  to={prev.url}
+                  className="relative inline-flex items-center px-2 py-2 rounded border bg-indigo-50 border-indigo-500 text-sm font-medium text-indigo-600 hover:bg-indigo-50"
+                >
+                  {prev.title}
+                </Link>
+              )}
+              {next && (
+                <Link
+                  to={next.url}
+                  className="relative inline-flex items-center px-2 py-2 rounded border bg-indigo-50 border-indigo-500 text-sm font-medium text-indigo-600 hover:bg-indigo-50 ml-auto"
+                >
+                  {next.title}
+                </Link>
+              )}
             </nav>
           </div>
         </div>
