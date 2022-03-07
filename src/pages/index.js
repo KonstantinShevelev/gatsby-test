@@ -1,18 +1,19 @@
 import * as React from "react"
 import { graphql } from "gatsby"
-import { Link } from "gatsby"
+import Post from "../components/post"
 import Layout from "../components/layout"
 
 export const query = graphql`
   query {
     allDatoCmsPost(sort: { order: DESC, fields: id }) {
-      edges {
-        node {
-          id
+      nodes {
+        id
+        title
+        slug
+        body
+        date
+        tags {
           title
-          slug
-          body
-          date
         }
       }
     }
@@ -24,6 +25,7 @@ export const query = graphql`
 `
 
 const IndexPage = ({ data }) => {
+  const posts = data.allDatoCmsPost.nodes
   return (
     <Layout>
       <section>
@@ -39,41 +41,8 @@ const IndexPage = ({ data }) => {
             </div>
             <div className="mt-10">
               <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-                {data.allDatoCmsPost.edges.map(post => {
-                  return (
-                    <Link
-                      to={`/posts/${post.node.slug}`}
-                      className="relative block"
-                      key={post.node.id}
-                    >
-                      <dt>
-                        <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                          <svg
-                            className="h-6 w-6"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            aria-hidden="true"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                            />
-                          </svg>
-                        </div>
-                        <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
-                          {post.node.title}
-                        </p>
-                        <time className="ml-16">{post.node.date}</time>
-                      </dt>
-                      <dd className="mt-2 ml-16 text-base text-gray-500">
-                        {post.node.body}
-                      </dd>
-                    </Link>
-                  )
+                {posts.map(post => {
+                  return <Post key={post.id} {...post} />
                 })}
               </dl>
             </div>

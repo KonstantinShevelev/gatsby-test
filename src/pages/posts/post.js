@@ -4,6 +4,7 @@ import PostHeader from "../../components/post-header"
 import PostBody from "../../components/post-body"
 import Container from "../../components/post-container"
 import { Link } from "gatsby"
+import Tags from "../../components/tags"
 
 export const query = graphql`
   query MyQuery($slug: String) {
@@ -11,10 +12,14 @@ export const query = graphql`
       title
       body
       date
+      tags {
+        id
+        title
+      }
     }
   }
 `
-const Post = ({ data, pageContext }) => {
+const BlogPost = ({ data, pageContext }) => {
   const prev = pageContext.prev
     ? {
         url: `/posts/${pageContext.prev.slug}`,
@@ -41,6 +46,12 @@ const Post = ({ data, pageContext }) => {
           title={data.datoCmsPost.title}
         />
         <PostBody content={data.datoCmsPost.body} />
+        {data.datoCmsPost.tags.length !== 0 && (
+          <div className="mb-6">
+            <span className="mr-2 text-sm">Теги:</span>
+            <Tags tags={data.datoCmsPost.tags} />
+          </div>
+        )}
         <div className="bg-white col-span-2 py-3 flex items-center justify-between border-t border-gray-200">
           <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <nav
@@ -71,4 +82,4 @@ const Post = ({ data, pageContext }) => {
   )
 }
 
-export default Post
+export default BlogPost

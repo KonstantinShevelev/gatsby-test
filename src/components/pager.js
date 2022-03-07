@@ -4,7 +4,7 @@ import { Link } from "gatsby"
 const Pager = ({ pageContext, totalCount }) => {
   const { previousPagePath, nextPagePath } = pageContext
   return (
-    <div className="bg-white col-span-2 py-3 flex items-center justify-between border-t border-gray-200">
+    <div className="bg-white col-span-2 py-4 flex items-center justify-between border-t border-gray-200">
       <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">

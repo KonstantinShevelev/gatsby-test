@@ -4,6 +4,7 @@ const { paginate } = require("gatsby-awesome-pagination")
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
   const blogPostTemplate = path.resolve(`src/pages/posts/post.js`)
+  const tagsTemplate = path.resolve(`./src/templates/tags.js`)
 
   const result = await graphql(
     `
@@ -13,10 +14,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             node {
               title
               slug
-              id
-              body
-              date
             }
+          }
+        }
+        allDatoCmsTag {
+          nodes {
+            title
           }
         }
       }
@@ -46,6 +49,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         slug: node.slug,
         prev: index === 0 ? null : posts[index - 1].node,
         next: index === posts.length - 1 ? null : posts[index + 1].node,
+      },
+    })
+  })
+
+  result.data.allDatoCmsTag.nodes.forEach(tag => {
+    createPage({
+      path: `/tags/${tag.title}`,
+      component: tagsTemplate,
+      context: {
+        tag: tag.title,
       },
     })
   })
