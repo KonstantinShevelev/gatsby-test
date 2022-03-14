@@ -50,7 +50,7 @@ module.exports = {
       options: {
         // You can find your read-only API token under the Settings > API tokens
         // section of your administrative area. Make sure to grant both CDA and CMA permissions.
-        apiToken: `afcced043cdde220604964eeab8155`,
+        apiToken: process.env.API_TOKEN,
 
         // The project environment to read from. Defaults to the primary environment:
         environment: `main`,
